@@ -1,4 +1,5 @@
-# autoLIM-Excel
+# autoLIM-Excel v 1.10.12.21
+
 Latest version: 1.10.12.21 ** Testing version
 
 Excel-based automatic translation of network input data into LIM declaration file format. 
