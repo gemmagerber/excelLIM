@@ -1,4 +1,4 @@
-# autoLIM-Excel v 1.10.12.21
+# autoLIM-Excel
 
 Latest version: 1.10.12.21 ** Testing version
 
