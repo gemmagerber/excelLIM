@@ -1,12 +1,15 @@
 # autoLIM-Excel
 
-Latest version: autoLIM-Excel 4node Winter ** Testing version
+Latest version: autoLIM_Excel
 
 Excel-based automatic translation of network input data into LIM declaration file format. 
 Outputs both unweighted and weighted LIM declaration files for one static network.
 For use with R packages LIM (v 1.4.6 Van Oevelen et al., 2010), limSolve (v 1.5.1 Soetaert et al., 2009), and FlowCAr (v 1.1.1 Waspe et al., 2018)
 
 News!
+
+v autoLIM_Excel
+- Bug fixes
 
 v 4node Winter Updates:
 - Added a small, theoretical four node example called "Winter"
