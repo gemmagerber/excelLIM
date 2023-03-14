@@ -1,20 +1,4 @@
----
-title: "autoLIMR: an R package for including data uncertainty in ecological network models"
-author: "Gemma Gerber"
-date: "2022"
-output:
-  rmarkdown::html_vignette:
-    number_sections: false
-    fig_caption: true
-vignette: >
-  %\VignetteIndexEntry{autoLIMR_vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-<style>
-body {
-text-align: justify}
-</style>
+# autoLIM-Excel
 
 Latest version: autoLIM_Excel
 
