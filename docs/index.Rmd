@@ -1,0 +1,190 @@
+---
+title: "autoLIMExcel HTML page"
+author: "Gemma Gerber"
+date: "2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+We developed an automated LIM declaration file translator with Microsoft Excel 2016, aptly named __autoLIM-Excel__. __autoLIM-Excel__ is a spreadsheet-based tool for novice network builders. It
+is designed for once-off LIM declaration file builds, or for users not 
+familiar with R. 
+__autoLIM-Excel__ is integrated with R package autoLIMR, but can stand alone.
+The latest version of __autoLIM-Excel__ can be download from the [autoLIM-Excel GitHub repository](https://github.com/gemmagerber/autoLIM-Excel) or downloaded to the working directory with the autoLIMR function `fetch_autoLIMExcel()` during an active R session. Please set `force = TRUE` to
+give R permission to download autoLIM-Excel and save to the working directory.
+
+```{r, eval = FALSE}
+fetch_autoLIMExcel(force = TRUE)
+```
+
+auotLIM-Excel contains two input sheets, and two output sheets. The two input sheets are separated into 1) Network Input Data, and 2) Adjacency Matrix. As with autoLIMR, the Network Input Data sheet contains all compartment names, biomasses, and metabolic constraints. The arguments for respiration, non-living nodes, and primary producers are also in this sheet, and are simple binary arguments (`1` for 'Yes', `0` for 'No')
+
+```{r, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___autoLIM-Excel__ Network Input sheet_"}
+knitr::include_graphics("images/excelnetdata.PNG")
+```
+
+
+The adjacency matrix sheet contains all flows and flow constraints from compartment in row _i_ to compartment in column _j_. __autoLIM-Excel__ automatically pulls all compartment names from the Network Data sheet into rows and columns in the adjacency matrix. Flow constraints can be entered in the same manner as for __autoLIMR__.
+
+```{r, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___autoLIM-Excel__ Adjacency Matrix sheet_"}
+knitr::include_graphics("images/exceladjmat.PNG")
+```
+
+After populating both __autoLIM-Excel__ input sheets, the user selects the “Data” tab and “Refresh All”, or hotkey “Ctrl+Alt+F5” (Microsoft Excel 2016) to activate several pre-coded Excel’s Power Query functions that select and arrange the generated linear equations into appropriate LIM declaration sections, and to finally gather the sections into two complete, independent LIM declaration text output sheets. The first sheet contains a weighted LIM declaration file and the second sheet contains the equivalent unweighted LIM declaration file. Users can copy and paste these files directly into an R script or use autoLIMR package read-in function `import_autoLIMExcel_limfile()` to extract the LIM declaration from __autoLIM-Excel__ into R. The argument `weighted = TRUE` imports the __autoLIM-Excel__ generated weighted LIM declaration file, whereas `weighted = FALSE` imports the unweighted LIM declaration file.
+
+```{r, eval = FALSE}
+import_autoLIMExcel_limfile(
+file = "autoLIM_Excel.xlsx",
+weighted = TRUE,
+limname = NULL,
+open_script = FALSE
+)
+```
+
+Here is an example of a weighted LIM declaration file constructed using __autoLIM-Excel__. 
+
+```{r, eval = FALSE}
+! Weighted Network
+! 4node Winter Network LIM Declaration File
+! Composed with autoLIM-Excel
+! Author: Gemma Gerber
+! Date: 23.Oct.2022
+
+! Respiration included: Yes
+! U included: Yes
+
+! Living compartments: 3
+! Non-living compartments: 1
+! External compartments: 7
+! Boundary flows: 7
+! Internal flows: 7
+
+! Abbreviations
+! GPP = Gross Primary Production (Primary Producers only)
+! Q = Consumption
+! NPP = Net Primary Production (Primary Producers only)
+! P = Production
+! R = Respiration
+! U = Passive flows to non-living compartments/Unassimilated material
+! AE = Assimilation Efficiency
+! IM = Import flow
+! EX = Export flow
+! NLNode = Non-living compartment
+
+### COMPARTMENTS
+
+Invertebrate = 800
+Plant = 500
+Vertebrate = 200
+DetritusNLNode = 7000
+
+### END COMPARTMENTS
+
+### EXTERNALS
+
+CO2
+DetritusNLNodeImport
+InvertebrateImport
+PlantImport
+DetritusNLNodeExport
+PlantExport
+VertebrateExport
+
+### END EXTERNALS
+
+### VARIABLES
+
+! Consumption (Q) / Gross Primary Production (GPP) Variables
+
+Invertebrate_Q = Flowto(Invertebrate) - Invertebrate_IM
+Plant_GPP = Flowto(Plant) - Plant_IM
+Vertebrate_Q = Flowto(Vertebrate)
+
+! Production (P/NPP) Variables
+
+Invertebrate_P = Flowfrom(Invertebrate) - Invertebrate_R - Invertebrate_U
+Plant_NPP = Flowfrom(Plant) - Plant_R - Plant_U - Plant_EX
+Vertebrate_P = Flowfrom(Vertebrate) - Vertebrate_R - Vertebrate_U - Vertebrate_EX
+
+! Unused Energy/Material (U) Variables
+
+Invertebrate_U = Flowto(Invertebrate) - Invertebrate_P - Invertebrate_R
+Plant_U = Flowto(Plant) - Plant_NPP - Plant_R - Plant_EX
+Vertebrate_U = Flowto(Vertebrate) - Vertebrate_P - Vertebrate_R - Vertebrate_EX
+
+! Assimilation Efficiency (AE) Variables
+
+Invertebrate_AE = Invertebrate_P + Invertebrate_R
+
+### END VARIABLES
+
+### FLOWS
+
+! GPP Flows
+
+Plant_GPP: CO2 -> Plant
+
+! Respiration flows
+
+Plant_R: Plant -> CO2
+Invertebrate_R: Invertebrate -> CO2
+Vertebrate_R: Vertebrate -> CO2
+
+! Import flows
+
+DetritusNLNode_IM: DetritusNLNodeImport -> DetritusNLNode
+Invertebrate_IM: InvertebrateImport -> Invertebrate
+Plant_IM: PlantImport -> Plant
+
+! Export flows
+
+DetritusNLNode_EX: DetritusNLNode -> DetritusNLNodeExport
+Plant_EX: Plant -> PlantExport
+Vertebrate_EX: Vertebrate -> VertebrateExport
+
+! Adjacency Matrix Flows
+
+DetritusNLNode_Q_Invertebrate: DetritusNLNode -> Invertebrate
+DetritusNLNode_Q_Vertebrate: DetritusNLNode -> Vertebrate
+Invertebrate_Q_Vertebrate: Invertebrate -> Vertebrate
+Invertebrate_U_DetritusNLNode: Invertebrate -> DetritusNLNode
+Plant_Q_Invertebrate: Plant -> Invertebrate
+Plant_U_DetritusNLNode: Plant -> DetritusNLNode
+Vertebrate_U_DetritusNLNode: Vertebrate -> DetritusNLNode
+
+### END FLOWS
+
+### INEQUALITIES
+
+! Network Data Input Inequalities
+
+Plant_GPP > 200
+Invertebrate_Q > 500
+Plant_GPP < 1000
+Invertebrate_Q < 900
+Vertebrate_Q < 350
+Invertebrate_R > 0.75
+Invertebrate_R < 0.75
+Plant_U < 200
+Plant_IM > 700
+DetritusNLNode_IM < 1200
+Plant_IM < 1300
+DetritusNLNode_EX < 380
+Plant_EX < 1300
+Invertebrate_AE > Invertebrate_Q * 0.1
+
+! Adjacency Matrix Inequalities
+
+DetritusNLNode_Q_Invertebrate = Invertebrate_Q * [0.01, 0.6]
+Plant_Q_Invertebrate < Invertebrate_Q * 0.6
+Invertebrate_Q_Vertebrate = Vertebrate_Q * [0.6, 1]
+
+### END INEQUALITIES
+
+
+```
+
