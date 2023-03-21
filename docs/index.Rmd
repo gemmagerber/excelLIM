@@ -1,5 +1,5 @@
 ---
-title: "__autoLIM-Excel__-Excel Guide (HTML)"
+title: "__excelLIM__ Guide (HTML)"
 author: "Gemma Gerber"
 date: '2023'
 output: bookdown::html_document2
@@ -18,53 +18,53 @@ Commonly, this is achieved by using opensource R and R package [LIM](https://cra
 
 To use these packages, all input data on network structure (compartments and directed flows) and flow constraints (lower and upper bounds) need to be manually coded into linear equations and declared in particular sections in a LIM-readable text file, the so-called 'LIM declaration file' (van Oevelen et al., 2010). For small networks, the manual construction of a LIM declaration file is straightforward but becomes less manageable in terms of complexity and time as network size increases.
 
-To support researchers in translating network model input data into LIM declaration files, we developed __autoLIM-Excel__: an automated LIM declaration file code translator with Microsoft Excel 2016. __autoLIM-Excel__ is a spreadsheet-based tool for novice network builders, automatically coding network input data into ready-to-use LIM declaration files describing both weighted and unweighted network models that feed directly into R packages [LIM](https://cran.r-project.org/web/packages/LIM/index.html)
+To support researchers in translating network model input data into LIM declaration files, we developed __excelLIM__: an automated LIM declaration file code translator with Microsoft Excel 2016. __excelLIM__ is a spreadsheet-based tool for novice network builders, automatically coding network input data into ready-to-use LIM declaration files describing both weighted and unweighted network models that feed directly into R packages [LIM](https://cran.r-project.org/web/packages/LIM/index.html)
 and
 limSolve [limSolve](https://cran.r-project.org/web/packages/limSolve/index.html).
-The entire LIM declaration file coding process is done within the __autoLIM-Excel__-Excel workbook and is therefore user-friendly to researchers with limited experience using R. 
+The entire LIM declaration file coding process is done within the __excelLIM__ workbook and is therefore user-friendly to researchers with limited experience using R. 
 
-The automation saves time and effort, reduces coding error rates, and can be applied to networks of up to one hundred nodes (compartments). While our example focuses on ecological networks, __autoLIM-Excel__-Excel is easily adaptable to a variety of system science disciplines. By removing a barrier in the network construction process, __autoLIM-Excel__ can improve the uptake of data uncertainty in network modelling with LIM-MCMC methods. 
+The automation saves time and effort, reduces coding error rates, and can be applied to networks of up to one hundred nodes (compartments). While our example focuses on ecological networks, __excelLIM__ is easily adaptable to a variety of system science disciplines. By removing a barrier in the network construction process, __excelLIM__ can improve the uptake of data uncertainty in network modelling with LIM-MCMC methods. 
 
 
 # Software Requirements & Getting Started
 
-__autoLIM-Excel__-Excel was implemented in Microsoft Excel 2016 (Microsoft, 2016) and R (v 4.2.0) (R Core Team, 2022), and is compatible with Microsoft 2013 and R v >= 4.2.0. __autoLIM-Excel__ has no dependencies and can be used without loading it's sister R package __autoLIMR__. __autoLIMR__ has a host of functions that integrates __autoLIM-Excel__ if users wish to use both applications together. 
+__excelLIM__ was implemented in Microsoft Excel 2016 (Microsoft, 2016) and R (v 4.2.0) (R Core Team, 2022), and is compatible with Microsoft 2013 and R v >= 4.2.0. __excelLIM__ has no dependencies and can be used without loading it's sister R package __autoLIMR__. __autoLIMR__ has a host of functions that integrates __excelLIM__ if users wish to use both applications together. 
 
-The latest version of __autoLIM-Excel__ can be download from the 
-[__autoLIM-Excel__-Excel GitHub repository](https://github.com/gemmagerber/__autoLIM-Excel__-Excel)
-or downloaded to the working directory with the autoLIMR function `autoLIMR::fetch_autoLIMExcel()` during an active R session. Please set `force = TRUE` to
-give R permission to download __autoLIM-Excel__-Excel and save to the working directory.
+The latest version of __excelLIM__ can be download from the 
+[__excelLIM__ GitHub repository](https://github.com/gemmagerber/__excelLIM__)
+or downloaded to the working directory with the autoLIMR function `autoLIMR::fetch_excelLIM()` during an active R session. Please set `force = TRUE` to
+give R permission to download __excelLIM__ and save to the working directory.
 
 ```{r, eval = FALSE}
-autoLIMR::fetch_autoLIMExcel(force = TRUE)
+autoLIMR::fetch_excelLIM(force = TRUE)
 ```
 
 
-# __autoLIM-Excel__-Excel workflow overview
+# __excelLIM__ workflow overview
 
-__autoLIM-Excel__-Excel consists of two input sheets. The first, 'Network Input Data' sheet contains all compartment names, biomasses, and metabolic constraints. 
-The second, ‘Adjacency Matrix’ sheet, contains a network matrix of intercompartmental flows including predator-prey interactions and unassimilated energy/material flows to the detrital pools. Once both datasheets have been populated with data, __autoLIM-Excel__-Excel codes the data into sets of linear equations, arrange the linear equations into LIM-required sections, and outputs ready-to-use LIM declaration files in two output sheets.
+__excelLIM__ consists of two input sheets. The first, 'Network Input Data' sheet contains all compartment names, biomasses, and metabolic constraints. 
+The second, ‘Adjacency Matrix’ sheet, contains a network matrix of intercompartmental flows including predator-prey interactions and unassimilated energy/material flows to the detrital pools. Once both datasheets have been populated with data, __excelLIM__ codes the data into sets of linear equations, arrange the linear equations into LIM-required sections, and outputs ready-to-use LIM declaration files in two output sheets.
 The first output sheet contains the 'weighted' network LIM declaration file. The
 second output sheet contains the equivalent 'unweighted' network LIM declaration file (Figure \@ref(fig:workflow)).
 
-```{r workflow, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___autoLIM-Excel__ workflow from input data to LIM declaration file_"}
+```{r workflow, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___excelLIM__ workflow from input data to LIM declaration file_"}
 knitr::include_graphics("images/autolimexcel_workflow.PNG")
 ```
 
 # User Guide
 
-Here we discuss the general principles of how to use __autoLIM-Excel__-Excel to produce
+Here we discuss the general principles of how to use __excelLIM__ to produce
 LIM declaration files from input data. We use a single conceptual four node food web network as an example.
 
 _conceptual diagram goes here_
 
 ## Data requirements
 
-Prior to using __autoLIM-Excel__, all network data are calculated to a specific model currency or defined as proportions of another variable (see Fath et al., 2007; Scharler and Borrett, 2021 for details). In our example, the model currency is in units of carbon, i.e., mg C·m^--2^ for compartment biomasses, and mg C·m^--2^·day^--1^ for flows.
+Prior to using __excelLIM__, all network data are calculated to a specific model currency or defined as proportions of another variable (see Fath et al., 2007; Scharler and Borrett, 2021 for details). In our example, the model currency is in units of carbon, i.e., mg C·m^--2^ for compartment biomasses, and mg C·m^--2^·day^--1^ for flows.
 
 ## Data input
 
-__autoLIM-Excel__ requires the user to differentiate and store the required network data in two separate sheets. The first, 'Network Input Data' sheet, contains network information on: 1) internal compartment names, 2) their respective biomasses, and 3) compartment-specific metabolic constraints. The arguments for respiration, non-living nodes, and primary producers are also in this sheet, and are simple binary arguments. The second sheet 'Adjacency Matrix' contains all internal compartment interactions (flows) and constraints orientated in a row-to-column format. We discuss the data input for each sheet below.
+__excelLIM__ requires the user to differentiate and store the required network data in two separate sheets. The first, 'Network Input Data' sheet, contains network information on: 1) internal compartment names, 2) their respective biomasses, and 3) compartment-specific metabolic constraints. The arguments for respiration, non-living nodes, and primary producers are also in this sheet, and are simple binary arguments. The second sheet 'Adjacency Matrix' contains all internal compartment interactions (flows) and constraints orientated in a row-to-column format. We discuss the data input for each sheet below.
 
 ### Network Data Input sheet
 
@@ -75,46 +75,46 @@ Additional columns in each network data table separately describe lower and uppe
 For both living and non-living compartments, imports from across the system boundary (_IM_), and exports from outside of the system boundary (_EX_) are included. If _IM_ and _EX_ flows exist and the inequalities are known, the user inputs separate lower and upper inequalities in separate columns headings. If a compartment receives an import or export, but the inequalities are not known, the user inputs a “1” in the respective columns. If no import or export to the compartment exist exists, the user can leave the respective cell blank or enter “0”, and no external compartment will be generated. 
 
 
-```{r netinput, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___autoLIM-Excel__ Network Input sheet_"}
+```{r netinput, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___excelLIM__ Network Input sheet_"}
 knitr::include_graphics("images/excelnetdata.PNG")
 ```
 
 ### Adjacency Matrix sheet
 
-The adjacency matrix sheet (Figure \@ref(fig:admat)) contains all flows and flow constraints from compartment in row _i_ to compartment in column _j_. __autoLIM-Excel__ automatically pulls all compartment names from the Network Input Data sheet into rows and columns in the adjacency matrix. Flows between the source (row _i_) and the recipient (column _j_) are defined by `1` or as constraints in the form of `lower value, upper value`. For example, `0.2,0.5` indicates that a flow from a specific source (row _i_) comprises 20 – 50 % of the compartment _j_’s total consumptive input.
+The adjacency matrix sheet (Figure \@ref(fig:admat)) contains all flows and flow constraints from compartment in row _i_ to compartment in column _j_. __excelLIM__ automatically pulls all compartment names from the Network Input Data sheet into rows and columns in the adjacency matrix. Flows between the source (row _i_) and the recipient (column _j_) are defined by `1` or as constraints in the form of `lower value, upper value`. For example, `0.2,0.5` indicates that a flow from a specific source (row _i_) comprises 20 – 50 % of the compartment _j_’s total consumptive input.
 
-```{r admat, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___autoLIM-Excel__ Adjacency Matrix sheet_"}
+```{r admat, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___excelLIM__ Adjacency Matrix sheet_"}
 knitr::include_graphics("images/exceladjmat.PNG")
 ```
 
 ## LIM declaration file translation
 
-Depending on the supplied information for Network Input Data and the Adjacency Matrices, __autoLIM-Excel__ formats the input data into sets of linear equations that are compatible with [LIM](https://cran.r-project.org/web/packages/LIM/index.html) and [limSolve](https://cran.r-project.org/web/packages/limSolve/index.html), and arranges them into LIM declaration file sections. The linear equations define compartments and their weights, external compartments and external flows (exchanges with external CO2 compartments, imports, and exports), intercompartmental flows and inequalities, and compartment specific metabolic inequalities (constraints). Here we discuss the translation details of information from each of the Network Input Data and Adjacency Matrices inputs into LIM compatible declaration files.
+Depending on the supplied information for Network Input Data and the Adjacency Matrices, __excelLIM__ formats the input data into sets of linear equations that are compatible with [LIM](https://cran.r-project.org/web/packages/LIM/index.html) and [limSolve](https://cran.r-project.org/web/packages/limSolve/index.html), and arranges them into LIM declaration file sections. The linear equations define compartments and their weights, external compartments and external flows (exchanges with external CO2 compartments, imports, and exports), intercompartmental flows and inequalities, and compartment specific metabolic inequalities (constraints). Here we discuss the translation details of information from each of the Network Input Data and Adjacency Matrices inputs into LIM compatible declaration files.
 
 ### Network Input Data translation
 
-From the Network Input Data, __autoLIM-Excel__ defines 1) Compartment equalities list, 2) External compartments list, 3) metabolic flows and inequalities, 4) boundary flows and inequalities, and 5) mass-balance variables. 
+From the Network Input Data, __excelLIM__ defines 1) Compartment equalities list, 2) External compartments list, 3) metabolic flows and inequalities, 4) boundary flows and inequalities, and 5) mass-balance variables. 
 
-For compartments defined as 'non-living', __autoLIM-Excel__ attaches a “NLNode” text string to the compartment name (e.g., `DetritusNLNode`). __autoLIM-Excel__ codes the list of compartments together with their respective biomasses into biomass equalities, arranges the non-living compartments to the bottom of the list, and places them within a LIM compatible section starting with the heading `### COMPARTMENTS` and ending with the section ending `### END COMPARTMENTS`. As a failsafe, __autoLIM-Excel__ will not create any code for a network compartment if the compartment biomass is less than or equal to zero. 
+For compartments defined as 'non-living', __excelLIM__ attaches a “NLNode” text string to the compartment name (e.g., `DetritusNLNode`). __excelLIM__ codes the list of compartments together with their respective biomasses into biomass equalities, arranges the non-living compartments to the bottom of the list, and places them within a LIM compatible section starting with the heading `### COMPARTMENTS` and ending with the section ending `### END COMPARTMENTS`. As a failsafe, __excelLIM__ will not create any code for a network compartment if the compartment biomass is less than or equal to zero. 
 
-__autoLIM-Excel__ generates external compartments based on the presence of 1) whether respiration is included, and 2) whether input and export inequalities are defined for each compartment. If respiration is included in the network model, __autoLIM-Excel__ generates an external `CO2` compartment to include in the externals list. If imports and exports for internal compartments are defined, __autoLIM-Excel__ generates external compartments for each import and export. For compartments with defined imports, __autoLIM-Excel__ codes an external compartment by attaching an 'Import' string to the compartment name (e.g. `InvertebrateImport`). For compartments with defined exports, external compartments are coded by attaching an 'Export' text string to the internal compartment name (e.g., `InvertebrateExport`). Unlike the internal compartment list, no biomasses equalities are generated for the external compartments. __autoLIM-Excel__ arranges the automatically defined external list such that, if respiration is included in the model, `CO2` is listed first. __autoLIM-Excel__ then places the externals list into the LIM compatible section starting with the heading `### EXTERNALS` and ending with the section ending `### END EXTERNALS`. 
+__excelLIM__ generates external compartments based on the presence of 1) whether respiration is included, and 2) whether input and export inequalities are defined for each compartment. If respiration is included in the network model, __excelLIM__ generates an external `CO2` compartment to include in the externals list. If imports and exports for internal compartments are defined, __excelLIM__ generates external compartments for each import and export. For compartments with defined imports, __excelLIM__ codes an external compartment by attaching an 'Import' string to the compartment name (e.g. `InvertebrateImport`). For compartments with defined exports, external compartments are coded by attaching an 'Export' text string to the internal compartment name (e.g., `InvertebrateExport`). Unlike the internal compartment list, no biomasses equalities are generated for the external compartments. __excelLIM__ arranges the automatically defined external list such that, if respiration is included in the model, `CO2` is listed first. __excelLIM__ then places the externals list into the LIM compatible section starting with the heading `### EXTERNALS` and ending with the section ending `### END EXTERNALS`. 
 
-If respiration has been included in the model, __autoLIM-Excel__ defines respiration flows as the flow from each living compartment to the external CO2 sink (Le Guen et al., 2019) e.g., `Invertebrate_R: Invertebrate -> CO2`. No respiration flows are generated for non-living compartments. For primary producer compartments, __autoLIM-Excel__ further generates a _GPP_ flow, defining the flow from the external CO2 sink to the primary producing compartments (e.g., `Plant_GPP: CO2 -> Plant`). Where compartmental imports have been defined, __autoLIM-Excel__ generates a flow describing the flow of energy from the external compartment to the internal compartment (e.g., `Invertebrate_IM: InvertebrateImport -> Invertebrate`). Where exports from each compartment have been defined, __autoLIM-Excel__ generates an export flow describing the flow of energy from the internal compartment to the external export compartment (e.g., `Invertebrate_EX: Invertebrate -> InvertebrateExport`). __autoLIM-Excel__ gathers the boundary flows and arranges them with all flows containing CO2 first, if applicable, with headings delineating each flow type within the LIM declaration file. If inequality values are provided for each boundary flow (respiration, imports, exports), __autoLIM-Excel__ will further generate an inequality for each value provided.
+If respiration has been included in the model, __excelLIM__ defines respiration flows as the flow from each living compartment to the external CO2 sink (Le Guen et al., 2019) e.g., `Invertebrate_R: Invertebrate -> CO2`. No respiration flows are generated for non-living compartments. For primary producer compartments, __excelLIM__ further generates a _GPP_ flow, defining the flow from the external CO2 sink to the primary producing compartments (e.g., `Plant_GPP: CO2 -> Plant`). Where compartmental imports have been defined, __excelLIM__ generates a flow describing the flow of energy from the external compartment to the internal compartment (e.g., `Invertebrate_IM: InvertebrateImport -> Invertebrate`). Where exports from each compartment have been defined, __excelLIM__ generates an export flow describing the flow of energy from the internal compartment to the external export compartment (e.g., `Invertebrate_EX: Invertebrate -> InvertebrateExport`). __excelLIM__ gathers the boundary flows and arranges them with all flows containing CO2 first, if applicable, with headings delineating each flow type within the LIM declaration file. If inequality values are provided for each boundary flow (respiration, imports, exports), __excelLIM__ will further generate an inequality for each value provided.
 
-For living compartments, __autoLIM-Excel__ defines mass balance equations to balance the sum of inputs and outputs (i.e. input = output) for each compartment (Fath et al., 2007). If both respiration and unused material has been included in __autoLIM-Excel__ arguments, mass balance equations are defined as Q = P + R + U, where Q is the total consumption, P is the production, R is the respiration, and U is the total unused energy/material flowing to the non-living compartments. __autoLIM-Excel__ automatically rearranges the mass-balance equations suitable for the LIM Declaration file as P = Q – R – U. The mass-balance equations are automatically changed depending on whether respiration, unused material, imports, and exports are included or not (e.g. P = Q – R, P = Q – U). The general mass-balance equation is automatically updated for autotroph compartments as _NPP_ = _GPP_ - _R_ - _U_, where _NPP_ is the Net Primary Production. 
+For living compartments, __excelLIM__ defines mass balance equations to balance the sum of inputs and outputs (i.e. input = output) for each compartment (Fath et al., 2007). If both respiration and unused material has been included in __excelLIM__ arguments, mass balance equations are defined as Q = P + R + U, where Q is the total consumption, P is the production, R is the respiration, and U is the total unused energy/material flowing to the non-living compartments. __excelLIM__ automatically rearranges the mass-balance equations suitable for the LIM Declaration file as P = Q – R – U. The mass-balance equations are automatically changed depending on whether respiration, unused material, imports, and exports are included or not (e.g. P = Q – R, P = Q – U). The general mass-balance equation is automatically updated for autotroph compartments as _NPP_ = _GPP_ - _R_ - _U_, where _NPP_ is the Net Primary Production. 
 
-Where compartments are defined as heterotrophs, the total consumptive input into the compartment is defined as the total consumption (Q). Total consumption is automatically defined as the sum of all consumption values across a number of partitioned diet flows (e.g. Invertebrate_Q = Flowto(Invertebrate)) (van Oevelen et al., 2010). __autoLIM-Excel__ further describes Production and Unused Material/energy as variables and lists them with vanity headings under the `### VARIABLES` section. 
+Where compartments are defined as heterotrophs, the total consumptive input into the compartment is defined as the total consumption (Q). Total consumption is automatically defined as the sum of all consumption values across a number of partitioned diet flows (e.g. Invertebrate_Q = Flowto(Invertebrate)) (van Oevelen et al., 2010). __excelLIM__ further describes Production and Unused Material/energy as variables and lists them with vanity headings under the `### VARIABLES` section. 
 
 
 ### Adjacency Matrix translation
 
-From the adjacency matrix input sheet, for a user-defined flow between source row _i_ and recipient column _j_, __autoLIM-Excel__ automatically generates and stores the flowname and flow for the particular exchange between _i_ and _j_ as `flowname: i -> j`. __autoLIM-Excel__ defines flow names with ‘_Q_’ if the flow describes a consumptive flow from one living or non-living compartment to a living compartment, e.g., `DetritusNLNode_Q_Invertebrate` describes the consumption of Detritus (row _i_) by Invertebrate (column _j_). __autoLIM-Excel__ defines flow names with ‘_U_’ if the flow describes an unassimilated energy/material or mortality flow from a living compartment (row _i_) to a non-living compartment (column _j_), e.g., `Invertebrate_U_DetritusNLNode` is the flow of unassimilated material/energy and mortality from Invertebrate to Detritus. If flow constraints are included in the adjacency matrix, __autoLIM-Excel__ generates and stores both a flow definition and the relative inequality for that flow.  
+From the adjacency matrix input sheet, for a user-defined flow between source row _i_ and recipient column _j_, __excelLIM__ automatically generates and stores the flowname and flow for the particular exchange between _i_ and _j_ as `flowname: i -> j`. __excelLIM__ defines flow names with ‘_Q_’ if the flow describes a consumptive flow from one living or non-living compartment to a living compartment, e.g., `DetritusNLNode_Q_Invertebrate` describes the consumption of Detritus (row _i_) by Invertebrate (column _j_). __excelLIM__ defines flow names with ‘_U_’ if the flow describes an unassimilated energy/material or mortality flow from a living compartment (row _i_) to a non-living compartment (column _j_), e.g., `Invertebrate_U_DetritusNLNode` is the flow of unassimilated material/energy and mortality from Invertebrate to Detritus. If flow constraints are included in the adjacency matrix, __excelLIM__ generates and stores both a flow definition and the relative inequality for that flow.  
 
 ### Combining translated code into the final LIM declaration file 
 
-After populating both __autoLIM-Excel__ input sheets, the user selects the 'Data' tab and 'Refresh All', or hotkey `Ctrl+Alt+F5` (Microsoft Excel 2016) to activate several pre-coded Excel’s Power Query functions that select and arrange the generated linear equations into appropriate LIM declaration sections, and to finally gather the sections into two complete, independent LIM declaration text output sheets. The first sheet contains a weighted LIM declaration file, containing ‘weights’ for each flow in the form of inequalities that reflect the constraints as upper and lower bounds, where applicable. The second sheet contains an unweighted LIM declaration file, which shares the same format as the weighted LIM declaration file but does not contain any flow weights. 
+After populating both __excelLIM__ input sheets, the user selects the 'Data' tab and 'Refresh All', or hotkey `Ctrl+Alt+F5` (Microsoft Excel 2016) to activate several pre-coded Excel’s Power Query functions that select and arrange the generated linear equations into appropriate LIM declaration sections, and to finally gather the sections into two complete, independent LIM declaration text output sheets. The first sheet contains a weighted LIM declaration file, containing ‘weights’ for each flow in the form of inequalities that reflect the constraints as upper and lower bounds, where applicable. The second sheet contains an unweighted LIM declaration file, which shares the same format as the weighted LIM declaration file but does not contain any flow weights. 
 
-Users can copy and paste the text directly into an R script (`.R` extension) or use autoLIMR package read-in function `autoLIMR::import_autoLIMExcel_limfile()` to extract the LIM declaration from __autoLIM-Excel__ into R. The argument `weighted = TRUE` imports the __autoLIM-Excel__ generated weighted LIM declaration file, whereas `weighted = FALSE` imports the unweighted LIM declaration file.
+Users can copy and paste the text directly into an R script (`.R` extension) or use autoLIMR package read-in function `autoLIMR::import_autoLIMExcel_limfile()` to extract the LIM declaration from __excelLIM__ into R. The argument `weighted = TRUE` imports the __excelLIM__ generated weighted LIM declaration file, whereas `weighted = FALSE` imports the unweighted LIM declaration file.
 
 ```{r, eval = FALSE}
 autoLIMR::import_autoLIMExcel_limfile(
@@ -125,12 +125,12 @@ open_script = FALSE
 )
 ```
 
-Here is an example of a weighted LIM declaration file constructed using __autoLIM-Excel__. 
+Here is an example of a weighted LIM declaration file constructed using __excelLIM__. 
 
 ```{r, eval = FALSE}
 ! Weighted Network
 ! 4node Winter Network LIM Declaration File
-! Composed with __autoLIM-Excel__-Excel
+! Composed with __excelLIM__
 ! Author: Jane Doe
 ! Date: 23.Oct.2022
 
