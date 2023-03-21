@@ -44,19 +44,23 @@ autoLIMR::fetch_excelLIM(force = TRUE)
 
 __excelLIM__ consists of two input sheets. The first, 'Network Input Data' sheet contains all compartment names, biomasses, and metabolic constraints. 
 The second, ‘Adjacency Matrix’ sheet, contains a network matrix of intercompartmental flows including predator-prey interactions and unassimilated energy/material flows to the detrital pools. Once both datasheets have been populated with data, __excelLIM__ codes the data into sets of linear equations, arrange the linear equations into LIM-required sections, and outputs ready-to-use LIM declaration files in two output sheets.
-The first output sheet contains the 'weighted' network LIM declaration file. The
-second output sheet contains the equivalent 'unweighted' network LIM declaration file (Figure \@ref(fig:workflow)).
+The first output sheet contains the 'unweighted' network LIM declaration file. The
+second output sheet contains the equivalent 'weighted' network LIM declaration file (Figure \@ref(fig:workflow)).
 
 ```{r workflow, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "___excelLIM__ workflow from input data to LIM declaration file_"}
-knitr::include_graphics("images/autolimexcel_workflow.PNG")
+knitr::include_graphics("images/excelLIM_workflow.PNG")
 ```
 
 # User Guide
 
 Here we discuss the general principles of how to use __excelLIM__ to produce
-LIM declaration files from input data. We use a single conceptual four node food web network as an example.
+LIM declaration files from input data. We use a single conceptual four-compartment food web network as an example (Figure \@ref(fig:network)).
 
 _conceptual diagram goes here_
+```{r network, echo = FALSE, out.width = "100%", fig.align = 'center', fig.cap = "_Conceptual four-compartment food web with flows depicting exchanges between compartments within and across a defined system boundary._"}
+knitr::include_graphics("images/network.PNG")
+```
+
 
 ## Data requirements
 
