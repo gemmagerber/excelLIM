@@ -1,3 +1,5 @@
+![logo](images/excelLIMlogo.png)
+
 # excelLIM v1.0.0
 
 Excel-based automatic translation of network input data into LIM declaration file format. 
