@@ -1,4 +1,4 @@
-![logo](images/excelLIMlogo.png)
+![logo](docs/images/excelLIMlogo.png)
 
 # excelLIM v1.0.0
 
