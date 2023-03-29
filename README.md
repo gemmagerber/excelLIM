@@ -1,7 +1,5 @@
 ![logo](docs/images/excelLIMlogo.png)
 
-<img src="https://github.com/gemmagerber/excelLIM/blob/main/docs/images/excelLIMlogo.png" width=50% height=50%>
-
 # excelLIM v1.0.0
 
 Excel-based automatic translation of network input data into LIM declaration file format. 
