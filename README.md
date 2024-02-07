@@ -1,6 +1,6 @@
 ![logo](docs/images/excelLIMlogo.png)
 
-# excelLIM v1.0.0
+# excelLIM v1.0.1
 
 Excel-based automatic translation of network input data into LIM declaration file format. 
 Outputs both unweighted and weighted LIM declaration files for one static network.
@@ -9,6 +9,10 @@ For use with R packages LIM (v 1.4.6 Van Oevelen et al., 2010), limSolve (v 1.5.
 View the user guide here: https://gemmagerber.github.io/excelLIM/
 
 ## News!
+
+### excelLIM v1.0.1
+- NEW RELEASE: 7 February 2024
+- Bug fixes
 
 ### excelLIM v1.0.0
 - NEW RELEASE: 15 March 2023
